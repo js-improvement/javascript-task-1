@@ -12,9 +12,11 @@ function romanTime(time) {
     //  console.info(t);
     var hour = Number(t[0]);
     var min = Number(t[1]);
+    if (hour < 0 || hour > 23) {
+        return new TypeError('Неверный формат времени');
+    }
 
-
-    if (hour < 0 || hour > 23 || min < 0 || min > 59 || t.length > 2 || isNaN(hour) || isNaN(min)) {
+    if (min < 0 || min > 59 || t.length > 2 || isNaN(hour) || isNaN(min)) {
         return new TypeError('Неверный формат времени');
     }
     var hourR = toRoman(hour);
