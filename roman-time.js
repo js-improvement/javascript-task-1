@@ -9,24 +9,24 @@ function romanTime(time) {
     var splitData = time.split(':');
     var hours = splitData[0];
     var minutes = splitData[1];
-    if (tryNaN(hours, minutes) && tryLim(hours, minutes) && splitData.length === 2) {
-
-        return renumber(hours) + ':' + renumber(minutes);
+    if (tryNaN(hours) || tryNaN(minutes) || tryLim(hours, minutes) || !splitData.length === 2) {
+        throw new TypeError('!!!ACHTUNG!!! WRONG TIME', 'roman-time.js', 13);
     }
-    throw new TypeError('!!!ACHTUNG!!! WRONG TIME', 'roman-time.js', 13);
+
+    return renumber(hours) + ':' + renumber(minutes);
 }
 
 /*
 ПРОВЕРКА ИСКЛЮЧЕНИЙ
 */
-function tryNaN(hours, minutes) {
+function tryNaN(tryData) {
 
-    return (!(isNaN(hours) || isNaN(minutes)));
+    return (isNaN(tryData));
 }
 
 function tryLim(hours, minutes) {
 
-    return !(hours < 0 || hours > 23 || minutes < 0 || minutes > 59);
+    return (hours < 0 || hours > 23 || minutes < 0 || minutes > 59);
 }
 
 /*
