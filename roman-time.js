@@ -5,8 +5,47 @@
  * @returns {String} – время римскими цифрами (IX:V)
  */
 function romanTime(time) {
-    // Немного авторского кода и замечательной магии
-    return time;
+    if (isValid(time) === false) {
+        throw new TypeError();
+    }
+
+    var hours = time.split(':')[0];
+    var minutes = time.split(':')[1];
+
+    var romanHours = toRoman(hours);
+    var romanMinutes = toRoman(minutes);
+
+    return romanHours + ':' + romanMinutes;
+}
+
+function isValid(time) {
+    if (typeof time === 'string' && time.length === 5 && time.charAt(2) === ':') {
+
+        var hours = parseInt(time.substring(0, 2), 10);
+        var minutes = parseInt(time.substring(3, 5), 10);
+
+        if (!isNaN(hours) && !isNaN(minutes) &&
+            hours >= 0 && hours <= 23 &&
+            minutes >= 0 && minutes <= 59) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function toRoman(number) {
+    if (number === '00') {
+        return 'N';
+    }
+
+    var romanDictTens = { '0': '', '1': 'X', '2': 'XX', '3': 'XXX', '4': 'XL', '5': 'L' };
+    var romanDictOnes = { '0': '', '1': 'I', '2': 'II', '3': 'III', '4': 'IV',
+                          '5': 'V', '6': 'VI', '7': 'VII', '8': 'VIII', '9': 'IX' };
+
+    var digits = number.split('');
+
+    return romanDictTens[digits[0]] + romanDictOnes[digits[1]];
 }
 
 module.exports = romanTime;
