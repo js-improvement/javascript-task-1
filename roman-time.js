@@ -1,4 +1,4 @@
-/* eslint-disable no-trailing-spaces */
+eslint-disable no-trailing-spaces
 'use strict';
 
 /**
