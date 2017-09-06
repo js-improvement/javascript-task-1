@@ -47,6 +47,13 @@ function renumber(incomingData) {
     return joinedRoman;
 }
 
+/*
+ *ПРОСТЯЦКИЙ ИТЕРАТОР
+ * ДОБАВЛЯЮЩТЙ СУФФЕКС
+ * ЛИБО 'X', ЛИБО 'I'
+ * ТАМ, ГДЕ НЕОБХОДИМО
+ */
+
 function iterIt(itemIt, outputIt, suffix) {
     for (var i = 1; i <= itemIt; i++) {
         outputIt += suffix;
