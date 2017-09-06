@@ -5,54 +5,100 @@
  * @param {String} time – время в формате HH:MM (например, 09:05)
  * @returns {String} – время римскими цифрами (IX:V)
  */
-function deca (data) {
-    var decaD = parseInt(data);
-    var romanD = '';
-    var deca = decaD % 10;
-    var remind = decaD - deca * 10;
-    if (decaD == 0) {
-        romanD = romanD + 'N';
-        return (romanD);
-    } else {
-        if (remind == 0) {
-            for (var i = deca; i > 0; i--) {
-                romanD = romanD + 'X';
-            }
-            return (romanD);
-        } else {
-            for (var i = deca; i > 0; i--) {
-                romanD = romanD + 'X';
-            }
-            if (remind > 0 && remind <= 3) {
-                for (var i = deca * 10, i <= decaD, i++) {
-                    romanD = romanD + 'I';
-                }
-                return (romanD);
-            } else if (remind == 4) {
-                romanD = romanD + 'IV';
-                return (romanD);
-            } else if (remind == 5) {
-                romanD = romanD + 'V';
-                return (romanD);
-            } else if (remind >=5 && remind <=8) {
-                romanD = romanD +'V';
-                for (var i = deca *10 + 5, i <= decaD, i++) {
-                    romanD + 'I';
-                }
-                return (romanD);
-            } else {
-                romanD = romanD + 'IX';
-                return (romanD);
-            }
-        }
-    }
-}
 
 function romanTime(time) {
     var splitData = time.split(':');
     var hours = splitData[0];
     var minutes = splitData[1];
-    return deca(hours) + ':' + deca(minutes);
+    if (tryNaN(hours, minutes) && tryLim(hours, minutes) && splitData.length === 2) {
+
+        return renumber(hours) + ':' + renumber(minutes);
+    }
+    throw new TypeError('!!!ACHTUNG!!! WRONG TIME', 'roman-time.js', 13);
+}
+
+/*
+ПРОВЕРКА ИСКЛЮЧЕНИЙ
+*/
+function tryNaN(hours, minutes) {
+
+    return (!(isNaN(hours) || isNaN(minutes)));
+}
+
+function tryLim(hours, minutes) {
+
+    return !(hours < 0 || hours > 23 || minutes < 0 || minutes > 59);
+}
+
+/*
+ *  КОНВЕРТИРУЕТ ДВЕ АРАБСКИЕ ЦИФРЫ В РИМСКИЕ
+ *  @param {String} incomingData - часы(минуты) (например, 20)
+ *  @returns {String} – часы(минуты) римскими цифрами (XX)
+ */
+function renumber(incomingData) {
+    var firstD = parseInt(incomingData[0], 10);
+    var secondD = parseInt(incomingData[1], 10);
+    var joinedRoman = '';
+    if (firstD === 0) {
+        joinedRoman += secondRoman(firstD, secondD);
+    } else {
+        joinedRoman += firstRoman(firstD) + secondRoman(firstD, secondD);
+    }
+
+    return joinedRoman;
+}
+
+function iterIt(itemIt, outputIt, suffix) {
+    for (var i = 1; i <= itemIt; i++) {
+        outputIt += suffix;
+    }
+
+    return outputIt;
+}
+
+/*
+ *  КОНВЕРТИРУЕТ ПЕРВУЮ ИЗ АРАБСКИХ ЦИФР,
+ *  ОБОЗНАЧАЮЩУЮ ДЕСЯТКИ, В РИМСКУЮ.
+ *  ЕСЛИ, КОНЕЧНО, ОНА НЕ "0"
+ *  @param {String} firstD - цифра (например, 2)
+ *  @returns {String} – цифра римская (XX)
+ */
+function firstRoman(firstD) {
+    var firstR = '';
+    if (firstD < 3) {
+        firstR = iterIt(firstD, firstR, 'X');
+    } else if (firstD === 4) {
+        firstR += 'XL';
+    } else {
+        firstR += 'L';
+    }
+
+    return firstR;
+}
+
+/*
+ *  КОНВЕРТИРУЕТ ВТОРУЮ ИЗ АРАБСКИХ ЦИФР,
+ *  ОБОЗНАЧАЮЩУЮ ЕДИНИЦЫ, В РИМСКУЮ.
+ *  ЕСЛИ, КОНЕЧНО, ОНА НЕ "0"
+ *  @param {String} firstD, secondD - (например, 2)
+ *  @returns {String} – цифра римская (II)
+ */
+function secondRoman(firstD, secondD) {
+    var secondR = '';
+    if (secondD === 0 && firstD === 0) {
+        secondR += 'N';
+    } else if (secondD <= 3) {
+        secondR = iterIt(secondD, secondR, 'I');
+    } else if (secondD === 4) {
+        secondR += 'IV';
+    } else if (secondD >= 5 && secondD <= 8) {
+        secondR += 'V';
+        secondR += iterIt(secondD, secondR, 'I');
+    } else {
+        secondR += 'IX';
+    }
+
+    return secondR;
 }
 
 module.exports = romanTime;
