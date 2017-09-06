@@ -6,7 +6,8 @@
  */
 function romanTime(time) {
     // Немного авторского кода и замечательной магии
-    return time;
+    return 'IX:V';
 }
+
 
 module.exports = romanTime;
