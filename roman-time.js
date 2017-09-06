@@ -9,7 +9,7 @@ function romanTime(time) {
     var splitData = time.split(':');
     var hours = splitData[0];
     var minutes = splitData[1];
-    if (tryNaN(hours) || tryNaN(minutes) || tryLim(hours, minutes) || !splitData.length === 2) {
+    if (isNaN(hours) || isNaN(minutes) || tryLim(hours, minutes) || !splitData.length === 2) {
         throw new TypeError('!!!ACHTUNG!!! WRONG TIME', 'roman-time.js', 13);
     }
 
@@ -19,10 +19,6 @@ function romanTime(time) {
 /*
 ПРОВЕРКА ИСКЛЮЧЕНИЙ
 */
-function tryNaN(tryData) {
-
-    return (isNaN(tryData));
-}
 
 function tryLim(hours, minutes) {
 
