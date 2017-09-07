@@ -12,14 +12,14 @@ function romanTime(time) {
     if (re.test(time) === true) {
 
         var arabHours = Number(time.slice(0, 2)); // берём часы и делаем их числом
-        var arabMinutes = Number(time.slice(3, 5)); // береём минуты и делаем их числом
-    // return toRoman(arabHours);
+        var arabMinutes = Number(time.slice(3)); // береём минуты и делаем их числом
 
-        return searchExceptions(toRoman(arabHours)) + ':' + searchExceptions(toRoman(arabMinutes));
+        return searchExceptions(toRoman(arabHours)) +
+                ':' + searchExceptions(toRoman(arabMinutes));
     }
-
-    return ('Введёное время не соответствует формату ЧЧ:ММ!');
+   // да чтоб тебя!
 }
+
 
 function toRoman(time) {
 
@@ -55,8 +55,6 @@ function searchExceptions(time) {
 
     time = time.replace('XXXX', 'XL');
     time = time.replace('VIIII', 'IX');
-
-
     time = time.replace('IIII', 'IV');
 
     if (time === '') {
