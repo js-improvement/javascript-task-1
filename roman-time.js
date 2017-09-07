@@ -6,7 +6,7 @@
  */
 function romanTime(time) {
 
-    // сначала должна быть проверка регулярным выражением на соответствие строки виду чч:мм, иначе не заработает!
+ // проверка регулярным выражением
 
 // ЧАСЫ
     var arabHours = Number(time.substring(0, 2)); // берём часы и делаем их числом
@@ -45,21 +45,23 @@ function romanTime(time) {
     var subStrVIIII = romanHoursStr.indexOf('VIIII');
     var subStrIIII = romanHoursStr.indexOf('IIII');
     var romanHourFin;
-    if (subStrVIIII != -1) {
-        romanHoursStr = romanHoursStr.substring(0, subStrVIIII) + 'IX' + romanHoursStr.substring(subStrVIIII + 5, romanHoursStr.length);
+    if (subStrVIIII !== -1) {
+        romanHoursStr = romanHoursStr.substring(0, subStrVIIII) + 'IX' +
+        romanHoursStr.substring(subStrVIIII + 5, romanHoursStr.length);
         romanHourFin = romanHoursStr;
 
     } else {
 
     }
-    if (subStrIIII != -1) {
-        romanHoursStr = romanHoursStr.substring(0, subStrIIII) + 'IV' + romanHoursStr.substring(subStrIIII + 4, romanHoursStr.length);
+    if (subStrIIII !== -1) {
+        romanHoursStr = romanHoursStr.substring(0, subStrIIII) + 'IV' +
+        romanHoursStr.substring(subStrIIII + 4, romanHoursStr.length);
+        romanHourFin = romanHoursStr;
+    } else {
         romanHourFin = romanHoursStr;
     }
-    else {
-        romanHourFin = romanHoursStr;
-    }
-    if (romanHourFin == '') {
+
+    if (romanHourFin === '') {
         romanHourFin = 'N';
     }
 
@@ -78,7 +80,7 @@ function romanTime(time) {
 
     // записываем в массив с минутами L столько раз, сколько пятидесяток
 
-    var i = 1;
+    i = 1;
 
     while (i <= numberLminutes) {
         romanMinutesM.push('L');
@@ -113,23 +115,25 @@ function romanTime(time) {
     var subMStrIIII = romanMinutesStr.indexOf('IIII');
 
 
-    if (subMStrXXXX != -1) {
-        romanMinutesStr = romanMinutesStr.substring(0, subMStrXXXX) + 'XL' + romanMinutesStr.substring(subMStrXXXX + 4, romanMinutesStr.length);
+    if (subMStrXXXX !== -1) {
+        romanMinutesStr = romanMinutesStr.substring(0, subMStrXXXX) + 'XL'
+        + romanMinutesStr.substring(subMStrXXXX + 4, romanMinutesStr.length);
     }
 
 
-    if (subMStrVIIII != -1) {
-        romanMinutesStr = romanMinutesStr.substring(0, subMStrVIIII) + 'IX' + romanMinutesStr.substring(subMStrVIIII + 5, romanMinutesStr.length);
+    if (subMStrVIIII !== -1) {
+        romanMinutesStr = romanMinutesStr.substring(0, subMStrVIIII) + 'IX'
+        + romanMinutesStr.substring(subMStrVIIII + 5, romanMinutesStr.length);
 
     } else {
-        if (subMStrIIII != -1) {
-            romanMinutesStr = romanMinutesStr.substring(0, subMStrIIII) + 'IV' + romanMinutesStr.substring(subMStrIIII + 4, romanMinutesStr.length);
-
+        if (subMStrIIII !== -1) {
+            romanMinutesStr = romanMinutesStr.substring(0, subMStrIIII) + 'IV'
+            + romanMinutesStr.substring(subMStrIIII + 4, romanMinutesStr.length);
         }
     }
 
 
-    if (romanMinutesStr == '') {
+    if (romanMinutesStr === '') {
         romanMinutesStr = 'N';
     }
     var finTime = romanHourFin + ':' + romanMinutesStr;
@@ -137,5 +141,8 @@ function romanTime(time) {
     return finTime;
 }
 
+function toRoman(time) {
+
+}
 
 module.exports = romanTime;
