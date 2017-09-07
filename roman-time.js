@@ -17,9 +17,9 @@ function romanTime(time) {
         return searchExceptions(toRoman(arabHours)) +
                 ':' + searchExceptions(toRoman(arabMinutes));
     }
-   // да чтоб тебя!
-}
+    throw (new TypeError('The message'));
 
+}
 
 function toRoman(time) {
 
