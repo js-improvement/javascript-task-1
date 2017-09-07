@@ -7,12 +7,18 @@
 function romanTime(time) {
 
  // проверка регулярным выражением
+    var re = /^(([0,1][0-9])|(2[0-3])):[0-5][0-9]$/;
 
-    var arabHours = Number(time.slice(0, 2)); // берём часы и делаем их числом
-    var arabMinutes = Number(time.slice(3, 5)); // береём минуты и делаем их числом
+    if (re.test(time) === true) {
 
-    return searchExceptions(toRoman(arabHours)) + ':' + searchExceptions(toRoman(arabMinutes));
-    // return toRoman(arabMinutes);
+        var arabHours = Number(time.slice(0, 2)); // берём часы и делаем их числом
+        var arabMinutes = Number(time.slice(3, 5)); // береём минуты и делаем их числом
+    // return toRoman(arabHours);
+
+        return searchExceptions(toRoman(arabHours)) + ':' + searchExceptions(toRoman(arabMinutes));
+    }
+
+    return ('Введёное время не соответствует формату ЧЧ:ММ!');
 }
 
 function toRoman(time) {
@@ -26,17 +32,17 @@ function toRoman(time) {
         romanTimeMas.push('L');
     }
 
-    // записываем в массив X столько раз, сколько десятков
+   // записываем в массив X столько раз, сколько десятков
     for (i = 1; i <= Math.floor(time % 50 / 10); i++) {
         romanTimeMas.push('X');
     }
 
-        // записываем в массив V столько раз, сколько пятёрок
+    // записываем в массив V столько раз, сколько пятёрок
     for (i = 1; i <= Math.floor(time % 50 % 10 / 5); i++) {
         romanTimeMas.push('V');
     }
 
-    // записываем в массив I столько раз, сколько единиц
+ // записываем в массив I столько раз, сколько единиц
     for (i = 1; i <= Math.floor(time % 50 % 10 % 5); i++) {
         romanTimeMas.push('I');
     }
@@ -47,29 +53,11 @@ function toRoman(time) {
 }
 function searchExceptions(time) {
 
-    // проверяем на исключения: XXXX, IIII и VIIII
-    var subStrXXXX = time.indexOf('XXXX');
-    var subStrVIIII = time.indexOf('VIIII');
-    var subStrIIII = time.indexOf('IIII');
+    time = time.replace('XXXX', 'XL');
+    time = time.replace('VIIII', 'IX');
 
 
-    if (subStrXXXX !== -1) {
-        time = time.substring(0, subStrXXXX) + 'XL' +
-             time.substring(subStrXXXX + 4, time.length);
-    }
-
-
-    if (subStrVIIII !== -1) {
-        time = time.substring(0, subStrVIIII) + 'IX' +
-            time.substring(subStrVIIII + 5, time.length);
-
-    }
-
-    if (subStrIIII !== -1) {
-        time = time.substring(0, subStrIIII) + 'IV' +
-                 time.substring(subStrIIII + 4, time.length);
-    }
-
+    time = time.replace('IIII', 'IV');
 
     if (time === '') {
         time = 'N';
