@@ -19,16 +19,9 @@ function romanTime(time) {
 }
 
 function isValid(time) {
-    if (typeof time === 'string' && time.length === 5 && time.charAt(2) === ':') {
-
-        var hours = Number(time.slice(0, 2));
-        var minutes = Number(time.slice(3, 5));
-
-        if (!isNaN(hours) && !isNaN(minutes) &&
-            hours >= 0 && hours <= 23 &&
-            minutes >= 0 && minutes <= 59) {
-            return true;
-        }
+    var timeFormatRegExp = /^([0-1][0-9])|(2[0-3]):[0-5][0-9]$/;
+    if (typeof time === 'string' && timeFormatRegExp.test(time) === true) {
+        return true;
     }
 
     return false;
