@@ -21,8 +21,8 @@ function romanTime(time) {
 function isValid(time) {
     if (typeof time === 'string' && time.length === 5 && time.charAt(2) === ':') {
 
-        var hours = parseInt(time.substring(0, 2), 10);
-        var minutes = parseInt(time.substring(3, 5), 10);
+        var hours = Number(time.slice(0, 2));
+        var minutes = Number(time.slice(3, 5));
 
         if (!isNaN(hours) && !isNaN(minutes) &&
             hours >= 0 && hours <= 23 &&
