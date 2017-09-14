@@ -1,53 +1,70 @@
 'use strict';
-/*var romanTime = require('./roman-time');*/
-function checkArabicTimeCorrect (arabicTime){
-    if (arabicTime.length!=5) {
+function checkArabicTimeCorrect(arabicTime) {
+    if ((arabicTime.length !== 5) ||
+        (Number(arabicTime.charAt(0)) * 10 + Number(arabicTime.charAt(1))) > 23 ||
+        (Number(arabicTime.charAt(3)) * 10 + Number(arabicTime.charAt(4))) > 59 ||
+        (!Number(arabicTime.charAt(2)) === ':')) { // uexpected arabic time value or format
         console.info('wrong time format, you fuckin idiot!');
+
         return;
     }
-    // noinspection JSAnnotator
-    if ((+arabicTime.charAt(0) * 10 + +arabicTime.charAt(1)) < 0 ||
-        (+arabicTime.charAt(0) * 10 + +arabicTime.charAt(1)) > 23 ||
-        (+arabicTime.charAt(3) * 10 + +arabicTime.charAt(4)) < 0 ||
-        (+arabicTime.charAt(3) * 10 + +arabicTime.charAt(4)) > 59 ||
-        !(arabicTime.charAt(2) == ':')) { //uexpected arabic time value or format
-        console.info('wrong time format, you fuckin idiot!');
-        return;
-    }
+
     return arabicTime;
 }
-function newTranslateArabicToRoman(arabicTime){
-    var romanTime = '';
-    if (Number(arabicTime.charAt(0))===5) romanTime = romanTime + "L";
-
-    else if (Number(arabicTime.charAt(0))===4)
-        romanTime = romanTime + "XL";
-
-    else {for (var i=0;i<Number(arabicTime.charAt(0));i++) romanTime = romanTime + "X";}
-    if (Number(arabicTime.charAt(1)) === 9) romanTime = romanTime + "IX";
-
-
-    else if (Number(arabicTime.charAt(1))>=5){
-        romanTime = romanTime + "V";
-        for(var j=0;j<Number(arabicTime.charAt(1))-5;j++) romanTime = romanTime + "I";
+function decadesTranslateArabicToRoman(arabicTime) {
+    var romanTime1 = '';
+    if (Number(arabicTime.charAt(0)) === 5) {
+        romanTime1 = romanTime1 + 'L';
+    } else if (Number(arabicTime.charAt(0)) === 4) {
+        romanTime1 = romanTime1 + 'XL';
+    } else {
+        for (var i = 0; i < Number(arabicTime.charAt(0)); i++) {
+            romanTime1 = romanTime1 + 'X';
+        }
     }
-    else if (Number(arabicTime.charAt(1))===4){
-        romanTime = romanTime + "IV";
+
+    return romanTime1;
+}
+function notDecadesTranslateArabicToRoman(arabicTime) {
+    var romanTime2 = '';
+
+
+    if (Number(arabicTime.charAt(1)) === 9) {
+        romanTime2 = romanTime2 + 'IX';
+    } else if (Number(arabicTime.charAt(1)) >= 5) {
+        romanTime2 = romanTime2 + 'V';
+        for (var j = 0; j < Number(arabicTime.charAt(1)) - 5; j++) {
+            romanTime2 = romanTime2 + 'I';
+        }
+    } else if (Number(arabicTime.charAt(1)) === 4) {
+        romanTime2 = romanTime2 + 'IV';
+    } else {
+        for (var k = 0; k < Number(arabicTime.charAt(1)); k++) {
+            romanTime2 = romanTime2 + 'I';
+        }
     }
-    else for (var k=0;k<Number(arabicTime.charAt(1));k++) romanTime = romanTime + "I";
-    return romanTime;
+
+    return romanTime2;
+}
+function newTranslateArabicToRoman(arabicTime) {
+    var romanTime3 = '';
+    romanTime3 = romanTime3 +
+        decadesTranslateArabicToRoman(arabicTime) +
+        notDecadesTranslateArabicToRoman(arabicTime);
+
+    return romanTime3;
 }
 
 
+function newCountRomanTime(arabicTime) {
+    var romanTime4 = '';
+    romanTime4 = romanTime4 + newTranslateArabicToRoman(arabicTime.charAt(0) +
+        arabicTime.charAt(1)) +
+        ':' + newTranslateArabicToRoman(arabicTime.charAt(3) + arabicTime.charAt(4));
 
-
-function newCountRomanTime (arabicTime){
-    var romanTime = '';
-    romanTime = romanTime + newTranslateArabicToRoman(arabicTime.charAt(0) + arabicTime.charAt(1))+
-        ':'+newTranslateArabicToRoman(arabicTime.charAt(3) + arabicTime.charAt(4));
-    return romanTime;
+    return romanTime4;
 }
-function romanTime(arabicTime){
+function romanTime(arabicTime) {
     return newCountRomanTime(checkArabicTimeCorrect(arabicTime));
 }
 console.info(romanTime('09:54'));
