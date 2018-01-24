@@ -26,6 +26,10 @@ function convertRoman(timeHM) {
         return timeHM;
     }
 
+    if (timeHM < 0) {
+        throw new TypeError();
+    }
+
     if ((timeHM >= 0) && (timeHM < 10)) {
         timeHM = convertMMToRoman(Number(timeHM.charAt(1)));
 
@@ -40,27 +44,30 @@ function convertRoman(timeHM) {
     return timeHM;
 }
 
+function checkUndefined(checkedTime) {
+    if (checkedTime === undefined) {
+        throw new TypeError();
+    }
+}
+
 function romanTime(time) {
     // Немного авторского кода и замечательной магии
-    var defaultValue = time;
 
-    if (time === undefined) {
-        return TypeError;
-    }
+    checkUndefined(time);
+
+//    if (time === undefined) {
+//        throw new TypeError();
+//    }
 
     time = time.split(':', 2);
 
-//    if ((time[0] > 23) || (time[1] > 59)) {
-//        return TypeError;
-//    }
-
     for (var i = 0; i < 2; i++) {
-        if ((time[i] < 0) || (isNaN(time[i])) || (time[i] === '') || (time[0] > 23) || (time[1] > 59)) {
-            return TypeError;
+        if ((isNaN(time[i])) || (time[i] === '') || (time[0] > 23) || (time[1] > 59)) {
+            throw new TypeError();
         }
     }
 
-    time = defaultValue + ' - ' + convertRoman(time[0]) + ':' + convertRoman(time[1]);
+    time = convertRoman(time[0]) + ':' + convertRoman(time[1]);
 
     return time;
 }
