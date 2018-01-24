@@ -5,92 +5,57 @@
  * @returns {String} – время римскими цифрами (IX:V)
  */
 
-function convertRoman(decimalTime) {
-    var romanTimeTens = decimalTime.slice(0, 1);
-    var romanTimeUnits = decimalTime.slice(-1);
+function convertHHToRoman(timeHH) {
+    var timeHHArray = ['', 'X', 'XX', 'XXX', 'XL', 'L'];
+    timeHH = timeHHArray[timeHH];
 
-    switch (romanTimeTens) {
-        case '0':
-            romanTimeTens = '';
-            break;
-        case '1':
-            romanTimeTens = 'X';
-            break;
-        case '2':
-            romanTimeTens = 'XX';
-            break;
-        case '3':
-            romanTimeTens = 'XXX';
-            break;
-        case '4':
-            romanTimeTens = 'XL';
-            break;
-        case '5':
-            romanTimeTens = 'L';
-            break;
-        default:
-            return TypeError;
+    return timeHH;
+}
+
+function convertMMToRoman(timeMM) {
+    var timeMMArray = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
+    timeMM = timeMMArray[timeMM];
+
+    return timeMM;
+}
+
+function convertRoman(timeHM) {
+    if (timeHM === '00') {
+        timeHM = 'N';
+
+        return timeHM;
     }
 
-    switch (romanTimeUnits) {
-        case '0':
-            romanTimeUnits = 'N';
-            break;
-        case '1':
-            romanTimeUnits = 'I';
-            break;
-        case '2':
-            romanTimeUnits = 'II';
-            break;
-        case '3':
-            romanTimeUnits = 'III';
-            break;
-        case '4':
-            romanTimeUnits = 'IV';
-            break;
-        case '5':
-            romanTimeUnits = 'V';
-            break;
-        case '6':
-            romanTimeUnits = 'VI';
-            break;
-        case '7':
-            romanTimeUnits = 'VII';
-            break;
-        case '8':
-            romanTimeUnits = 'VIII';
-            break;
-        case '9':
-            romanTimeUnits = 'IX';
-            break;
-        default:
-            return TypeError;
+    if ((timeHM >= 0) && (timeHM < 10)) {
+        timeHM = convertMMToRoman(Number(timeHM.charAt(1)));
+
+        return timeHM;
     }
 
-    if (decimalTime < 10) {
-        decimalTime = romanTimeUnits;
+    var romanTimeHH = convertHHToRoman(Number(timeHM.charAt(0)));
+    var romanTimeMM = convertMMToRoman(Number(timeHM.charAt(1)));
 
-        return decimalTime;
-    }
+    timeHM = romanTimeHH + romanTimeMM;
 
-    decimalTime = romanTimeTens + romanTimeUnits;
-
-    return decimalTime;
+    return timeHM;
+}
 
 function romanTime(time) {
     // Немного авторского кода и замечательной магии
     var defaultValue = time;
+
     if (time === undefined) {
         return TypeError;
     }
+
     time = time.split(':', 2);
 
-    if ((time[0] > 23) || (time[1] > 59)) {
-        return TypeError;
-    }
+//    if ((time[0] > 23) || (time[1] > 59)) {
+//        return TypeError;
+//    }
 
     for (var i = 0; i < 2; i++) {
-        if ((time[i] < 0) || isNaN(time[i]) || time[i] === '') {
+        if ((time[i] < 0) || (isNaN(time[i])) || (time[i] === '') || (time[0] > 23) || (time[1] > 59)) {
             return TypeError;
         }
     }
