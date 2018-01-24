@@ -6,7 +6,9 @@
  */
 
 function convertToRoman(decimalTime) {
-	var romanTimeTens = +decimalTime.slice(0, 1);
+	var romanTimeTens = decimalTime.slice(0, 1);
+	var romanTimeUnits = decimalTime.slice(-1);
+	
 	switch (romanTimeTens) {
 		case '0':
 			romanTimeTens = '';
@@ -27,8 +29,7 @@ function convertToRoman(decimalTime) {
 			romanTimeTens = 'L';
 			break;
 	}
-	
-	var romanTimeUnits = +decimalTime.slice(-1);
+		
 	switch (romanTimeUnits) {
 		case '0':
 			romanTimeUnits = 'N';
@@ -62,29 +63,34 @@ function convertToRoman(decimalTime) {
 			break;
 	}
 	
+	if(decimalTime < 10) {
+		return decimalTime = romanTimeUnits;
+	}
+	
 	return decimalTime = romanTimeTens + romanTimeUnits;
 }
 
 function romanTime(time) {
     // Немного авторского кода и замечательной магии
 	var defaultValue = time;
+	if (time == undefined ) {
+		return TypeError;
+	}
 	var time = time.split(':', 2);
 	
-	if(!(((time[0] >= 0)) && (time[0] <= 23)) || !(((time[1] >= 0)) && (time[1] <= 59))) {
-		throw new TypeError('Неверное время!');
-	}	
+	if ((time[0] > 23) || (time[1] > 59)) {
+		return TypeError;
+	}
 	
-	time = defaultValue + ' - ' + convertToRoman(time[0]) + ':' + convertToRoman(time[1]);	
+	for (var i=0 ; i < 2; i++) {
+		if ((time[i] < 0 ) || isNaN(time[i]) || time[i] == '') {
+			return TypeError;
+		}
+	}
+	
+	time = defaultValue + ' - ' + convertToRoman(time[0]) + ':' + convertToRoman(time[1]);
 	
     return time;
 }
-
-console.log(romanTime('00:00'));
-console.log(romanTime('09:11'));
-console.log(romanTime('23:59'));
-console.log(romanTime('24:00'));
-console.log(romanTime('00:60'));
-
-
 
 module.exports = romanTime;
